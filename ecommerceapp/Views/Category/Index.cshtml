@@ -1,0 +1,79 @@
+﻿@model IEnumerable<Categories>
+
+
+
+@*//////////////This is Admin Login Code///////////////////////////*@
+@*
+@using Microsoft.AspNetCore.Http
+@using Microsoft.AspNetCore.Identity
+
+@inject IHttpContextAccessor HttpContextAccessor
+
+@{
+	var session = HttpContextAccessor.HttpContext.Session;
+	var AdminLoggedIn = session.GetString("AdminLoggedIn");
+	var userEmail = session.GetString("UserEmail");
+}*@
+@*///////////////////////////////////////////////////////////////*@
+
+
+@if (TempData["sucessfull"] != null)
+{
+	<h3 style="color:red">@TempData["sucessfull"] </h3>
+}
+
+@if (TempData["erroremail"] != null)
+{
+	<h3 style="color:red">@TempData["erroremail"] </h3>
+}
+@if (TempData["errorimg"] != null)
+{
+	<h3 style="color:red">@TempData["errorimg"]</h3>
+}
+
+
+
+@*
+@if (!string.IsNullOrEmpty(AdminLoggedIn) && AdminLoggedIn == "true")
+{*@
+
+	<h1>Category List</h1>
+	<br>
+
+	<div class="row">
+		<div class="col-6">
+			<a class="btn btn-primary" asp-controller="Category" asp-action="Create"> Create Employee</a>
+		</div>
+
+	</div>
+	<br>
+	<br>
+	<table class="table table-hover ">
+		<thead>
+			<tr>
+
+				<th>Id</th>
+				<th>Name</th>
+				<th>Image</th>
+				<th>Update/Delete</th>
+			</tr>
+		</thead>
+		<tbody>
+
+			@foreach (var obj in Model)
+			{
+				<tr>
+					<td>@obj.CategoryId</td>
+					<td>@obj.CategoryName</td>
+					<td><img src="~/img/@obj.img" width="100px" height="100px" /> </td>
+
+					<td>
+						<a class="btn btn-primary" asp-controller="Category" asp-action="Create" asp-route-id="@obj.CategoryId"> Update</a>
+						<a class="btn btn-danger" asp-controller="Category" asp-action="Delete" asp-route-id="@obj.CategoryId"> Delete</a>
+					</td>
+
+				</tr>
+			}
+		</tbody>
+
+	</table>

@@ -1,0 +1,126 @@
+﻿@model ShopCartViewModel
+
+@using Microsoft.AspNetCore.Http
+@using Microsoft.AspNetCore.Identity
+
+@inject IHttpContextAccessor HttpContextAccessor
+
+@{
+	var session = HttpContextAccessor.HttpContext.Session;
+	var isLoggedIn = session.GetString("IsLoggedIn");
+	var userEmail = session.GetString("UserEmail");
+}
+
+<br />
+<div class="container">
+	<div class="card">
+		<div class="card-header bg-dark text-light ml-0">
+			<div class="row">
+				<div class="col-6  pt-2">
+					<i class="fa fa-shopping-cart"></i> &nbsp;
+					Shopping Cart
+				</div>
+				<div class="col-6 text-end">
+					<a asp-controller="View" asp-action="Index" class="btn btn-outline-info btn-sm">Continue Shopping</a>
+				</div>
+			</div>
+		</div>
+
+
+		<div class="card-body">
+			<div class="row" >
+				<div class="col-2">
+					<h5><strong>Product Image</strong></h5>
+
+				</div>
+				<div class="col-2">
+					<h5><strong>Product Name</strong></h5>
+
+				</div>
+				<div class="col-2">
+					<h5><strong>ProductPrice</strong></h5>
+				</div>
+				<div class="col-2">
+					<h5><strong>Total Quantity</strong></h5>
+				</div>
+				<div class="col-2 ">
+					<h5><strong>Total Price</strong></h5>
+				</div>
+				<div class="col-2">
+				</div>
+
+			</div>
+
+		</div>
+		<hr />
+
+		@foreach (var item in Model.CartItems)
+{
+			<div class="card-body">
+				<div class="row" >
+					<div class="col-2">
+						<img src="~/img/@item.Product.prodimg" class="rounded" width="90px" height="60px" />
+					</div>
+					<div class="col-2 pt-3">
+						<h6><strong>@item.Product.productName</strong></h6>
+					</div>
+					<div class="col-2 pt-3">
+						<h6><strong>@item.Product.productPrice</strong></h6>
+					</div>
+					<div class="col-2 pt-3">
+						<h6><strong>@item.Quantity</strong></h6>
+					</div>
+					<div class="col-2 pt-3">
+						<h6><strong>@(item.Product.productPrice * item.Quantity)</strong></h6>
+					</div>
+
+					<div class="col-2">
+						<div class="input-group mt-3 mt-md-0" role="group">
+							<a asp-action="plus" asp-route-cartId="@item.Id" class="btn btn-primary">
+								<i class="bi bi-plus-square"></i>
+							</a> &nbsp;
+							<a asp-action="minus" asp-route-cartId="@item.Id" class="btn btn-primary">
+								<i class="bi bi-dash-square"></i>
+							</a>
+
+							<a asp-action="remove" asp-route-cartId="@item.Id" class="btn btn-danger"  style="margin-left:20px">
+								<i class="bi bi-trash-fill"></i>
+							</a>
+						</div>
+						
+					
+					</div>
+
+				</div>
+				
+			</div>
+}
+		<div class="row" >
+			<div class="col-12 col-md-6 offset-md-6 col-lg-4 offset-lg-8 pr-4" >
+				<ul class="list-group" >
+					<li class="list-group-item d-flex justify-content-between bg-dark">
+						<span class="text-info"> Total (Rupees)</span>
+						<strong class="text-info">@Model.TotalPrice2  Rs/-</strong>
+					</li>
+				</ul>
+			</div>
+		</div>
+
+			<div class="card-footer">
+				<div class="card-footer row">
+					<div class="col-sm-12 col-lg-4 col-md-6 offset-lg-8 offset-md-6 ">
+						@*<a asp-action="summary" class="btn btn-success form-control">Check Out</a>*@
+
+					@if (!string.IsNullOrEmpty(isLoggedIn) && isLoggedIn == "true")
+					{
+						<a asp-action="summary" class="btn btn-success form-control">Check Out</a>
+					}
+					else
+					{
+						<a asp-action="newsummary" class="btn btn-success form-control">Check Out</a>
+					}
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>

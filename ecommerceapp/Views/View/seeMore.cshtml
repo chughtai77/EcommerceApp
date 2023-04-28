@@ -1,0 +1,72 @@
+﻿@model IndexViewModel
+
+<h2>@Model.Category.CategoryName</h2>
+
+@if (!Model.prodlist.Any())
+{
+    <div class="alert alert-warning" role="alert">
+        <h5>
+            No products found.
+         </h5>
+    </div>
+}
+else
+{
+<div class="row pb-3" >
+    @foreach (var obj in Model.prodlist)
+    {
+        <div class="col-lg-3 col-md-6 col-sm-12 mb-3" >
+            <div class="card p-3" style="width: 100%;">
+                <img src="~/img/@obj.prodimg" class="card-img-top" height="200px">
+                <div class="card-body">
+                    <h5 asp-for="@obj.productName" class="card-title" style="text-align:center;height:20px;" asp-for="@obj.productName">@obj.productName</h5>
+                    <p asp-for="@obj.productDesc" class="card-text" style="text-align:center;height:55px;">@obj.productDesc</p>
+                    <h5 asp-for="@obj.productPrice" class="card-text" style="text-align:center;height:30px;">Rs/- @obj.productPrice</h5>
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                        <a class="btn btn-primary me-md-2" asp-controller="View" asp-action="cartExtra" asp-route-productId="@obj.productId">Buy Now</a>
+                        <a class="btn btn-warning" asp-controller="View" asp-action="guestcart" asp-route-id="@obj.productId">Add to Cart</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+}
+
+
+
+
+
+
+
+
+
+
+@*@model IndexViewModel
+
+<h2>@Model.Category.CategoryName</h2>
+<div class="row pb-3">
+    @foreach (var obj in Model.prodlist)
+    {
+        <div class="col-lg-3 col-md-6 col-sm-12 mb-3">
+            <div class="card p-3" style="width:100%;height: 420px;">
+                <img src="~/img/@obj.prodimg" class="card-img-top" height="200px">
+                <div class="card-body" style="height: 300px;">
+                    <h5 asp-for="@obj.productName" class="card-title" style="text-align:center">@obj.productName</h5>
+                    <p asp-for="@obj.productDesc" class="card-text" style="text-align:center; overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical;">@obj.productDesc</p>
+                    <h5 asp-for="@obj.productPrice" class="card-text" style="text-align:center">Rs/- @obj.productPrice</h5>
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                        <a class="btn btn-primary me-md-2" asp-controller="View" asp-action="cartExtra" asp-route-productId="@obj.productId">Buy Now</a>
+                        <a class="btn btn-warning" asp-controller="View" asp-action="guestcart" asp-route-id="@obj.productId">Add to Cart</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+*@
+
+
+

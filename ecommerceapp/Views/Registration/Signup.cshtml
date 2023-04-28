@@ -1,0 +1,64 @@
+﻿@model Register
+@if (TempData["erroremail"] != null)
+{
+    <h5 style="color:red">@TempData["erroremail"] </h5>
+}
+@if (TempData["errorpass"] != null)
+{
+    <h5 style="color:red">@TempData["errorpass"] </h5>
+}
+@if (TempData["errorexist"] != null)
+{
+    <h5 style="color:red">@TempData["errorexist"] </h5>
+}
+
+    <div class="container">
+        <div class="row justify-content-center mt-5">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header text-center">
+                        <h4>Register New Account</h4>
+                    </div>
+                    <div class="card-body">
+                    <form method="post" asp-action="Signup">
+                            <div class="form-floating mb-3">
+                            <input asp-for="Name" type="text" class="form-control" id="name" >
+                            <label for="name">Name</label>
+                            @*<span asp-validation-for="Name" style="color:red"></span>*@
+                            </div>
+                            <div class="form-floating mb-3">
+                            <input asp-for="Email" type="email" class="form-control" id="email" >
+                            <span asp-validation-for="Email" style="color:red"></span>
+
+                            <label for="email">Email address</label>
+                            </div>
+                            <div class="form-floating mb-3">
+                            <input asp-for="PasswordHash" type="password" class="form-control" id="password">
+                            <span asp-validation-for="PasswordHash" style="color:red"></span>
+                           
+                            <label for="password">Password</label>
+                            </div>
+                             <div class="form-floating mb-3">
+                            <input asp-for="PhoneNumber" type="number" class="form-control" id="numner" >
+                                <label for="number">Phone Number</label>
+                            </div>
+                        <div class="form-floating mb-3">
+                            <input asp-for="Address" type="text" class="form-control" id="address" >
+                            <label for="address">Address</label>
+                        </div>
+                          
+                        <button type="submit" class="btn btn-primary btn-block" style="width:100%">Register</button>
+                        </form>
+                        <div class="text-center mt-3">
+                        <p>Already have an account? <a asp-controller="Registration" asp-action="Index">Login here</a>.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+
+

@@ -1,0 +1,82 @@
+﻿@model IEnumerable<Product>
+@*@model List<dynamic>*@
+@*@model IndexViewModel*@
+
+
+@*//////////////This is Admin Login Code///////////////////////////*@
+
+@*@using Microsoft.AspNetCore.Http
+@using Microsoft.AspNetCore.Identity
+
+@inject IHttpContextAccessor HttpContextAccessor
+
+@{
+	var session = HttpContextAccessor.HttpContext.Session;
+	var AdminLoggedIn = session.GetString("AdminLoggedIn");
+	var userEmail = session.GetString("UserEmail");
+}*@
+@*///////////////////////////////////////////////////////////////*@
+
+
+@if (TempData["sucessfull"] != null)
+{
+	<h3 style="color:red">@TempData["sucessfull"] </h3>
+}
+
+@if (TempData["erroremail"] != null)
+{
+	<h3 style="color:red">@TempData["erroremail"] </h3>
+}
+@if (TempData["errorimg"] != null)
+{
+	<h3 style="color:red">@TempData["errorimg"]</h3>
+}
+
+
+
+@*@if (!string.IsNullOrEmpty(AdminLoggedIn) && AdminLoggedIn == "true")
+{*@
+	<h1>Product List</h1>
+	<br>
+	<div class="row">
+		<div class="col-6">
+			<a class="btn btn-primary" asp-controller="Product" asp-action="Create"> Create Product</a>
+		</div>
+	</div>
+	<br>
+	<br>
+	<table class="table table-hover ">
+		<thead>
+			<tr>
+				<th>Id</th>
+				<th>Image</th>
+				<th>Name</th>
+				<th>Description</th>
+				<th>Category</th>
+				<th>Price</th>
+				<th>Update/Delete</th>
+			</tr>
+		</thead>
+		<tbody>
+
+			@foreach (var obj in Model)
+			{
+				<tr>
+					<td>@obj.productId</td>
+					<td><img src="~/img/@obj.prodimg" width="100px" height="100px" /> </td>
+					<td>@obj.productName</td>
+					<td style="width:30%">@obj.productDesc </td>
+					<td>@obj.category</td>
+					<td>@obj.productPrice</td>
+					<td>
+						<a class="btn btn-primary" asp-controller="Product" asp-action="Create" asp-route-id="@obj.productId"> Update</a>
+						<a class="btn btn-danger" asp-controller="Product" asp-action="Delete" asp-route-id="@obj.productId"> Delete</a>
+					</td>
+
+				</tr>
+			}
+		</tbody>
+
+
+	</table>
+

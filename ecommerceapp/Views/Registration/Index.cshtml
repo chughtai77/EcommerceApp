@@ -1,0 +1,58 @@
+﻿@model Register
+
+@if (TempData["erroremail"] != null)
+{
+    <h5 style="color:red">@TempData["erroremail"] </h5>
+}
+@if (TempData["errorpass"] != null)
+{
+    <h5 style="color:red">@TempData["errorpass"] </h5>
+}
+@if (TempData["success"] != null)
+{
+    <h5 style="color:red">@TempData["success"] </h5>
+}
+
+    <div class="container">
+        <div class="row justify-content-center mt-5">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header text-center">
+                        <h4>Login Account</h4>
+                    </div>
+                    <div class="card-body">
+                    <form method="post" asp-action="newIndex">
+
+                        <div class="form-floating mb-3">
+                            <input asp-for="Email" type="email" class="form-control" id="email" placeholder="Enter your email address">
+                            <label for="email">Email address</label>
+                            <span asp-validation-for="Email" class="text-danger"></span>
+
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input asp-for="Password" type="password" class="form-control" id="password" placeholder="Enter a password">
+                            <label for="password">Password</label>
+
+                            <span asp-validation-for="Password" class="text-danger"></span>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary btn-block" style="width:100%">Login</button>
+                        </form>
+                        <div class="row mt-3">
+                            <div class="col-6">
+                                <a asp-controller="Registration" asp-action="Forgotpassword">Forgot password?</a>
+                            </div>
+                            <div class="col-6 text-end">
+                            <a asp-controller="Registration" asp-action="Signup">Register new account</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-9aKj3gCtM3dJZTvct+EL2n1FJX9HgOyjKnsBwk1g7atldtQOlaVZ3Pqo3JVtEeIN" crossorigin="anonymous"></script>
+
+

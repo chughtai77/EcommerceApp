@@ -1,0 +1,72 @@
+﻿@model Categories
+
+@*@using Microsoft.AspNetCore.Http
+@using Microsoft.AspNetCore.Identity
+
+@inject IHttpContextAccessor HttpContextAccessor
+
+@{
+    var session = HttpContextAccessor.HttpContext.Session;
+    var AdminLoggedIn = session.GetString("AdminLoggedIn");
+    var userEmail = session.GetString("UserEmail");
+}
+@if (!string.IsNullOrEmpty(AdminLoggedIn) && AdminLoggedIn == "true")
+{*@
+
+
+    <h2>@(
+            Model.CategoryId != 0 ? "Update" : "Create New"
+            ) Category</h2>
+    <br>
+
+    <form asp-action="Create" method="post" enctype="multipart/form-data">
+        <input asp-for="img" hidden />
+        <input asp-for="CategoryId" hidden />
+
+        <input type="file" id="imgPrev" name="categoryimg" class="form-control w-25" />
+
+        @if (Model != null)
+        {
+            <img src="~/img/@Model.img" id="imgtag" class="form-control w-25" />
+
+        }
+        @if (Model.CategoryId > 0)
+        {
+            <img src="~/img/@Model.img"
+         id="imgtag2" class="form-control w-25 " height="200px" />
+        }
+
+    <br>
+    <label >Category Name:</label>
+    <input type="text" asp-for="CategoryName" class="form-control"/><br>
+
+    <button type="submit" class="btn btn-primary">
+        @(Model.CategoryId != 0 ? "Update" : "Create") Record
+    </button>
+    <a asp-action="Index" class="btn btn-danger">Back to List</a>
+</form>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $('#imgtag').hide();
+
+        $("#imgPrev").change(function () {
+            readURL(this);
+        });
+    });
+    function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                $('#imgtag').attr('src', e.target.result);
+                $('#imgtag').show();
+                $('#imgtag2').hide();
+            }
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+</script>
+}

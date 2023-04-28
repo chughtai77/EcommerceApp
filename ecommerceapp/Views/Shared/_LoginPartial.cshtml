@@ -1,0 +1,160 @@
+﻿@using Microsoft.AspNetCore.Http
+@using Microsoft.AspNetCore.Identity
+
+@inject IHttpContextAccessor HttpContextAccessor
+
+@{
+    var session = HttpContextAccessor.HttpContext.Session;
+    var isLoggedIn = session.GetString("IsLoggedIn");
+    var userEmail = session.GetString("UserEmail");
+}
+@{
+    var session2 = HttpContextAccessor.HttpContext.Session;
+    var AdminLoggedIn = session2.GetString("AdminLoggedIn");
+    var userEmail2 = session2.GetString("UserEmail");
+}
+
+<ul class="navbar-nav">
+    @if (!string.IsNullOrEmpty(isLoggedIn) && isLoggedIn == "true")
+    {
+        <ul class="navbar-nav flex-grow-1">
+            <li class="nav-item">
+                <a class="nav-link text-dark" asp-area="" asp-controller="View" asp-action="Index">Home</a>
+            </li>
+
+            <li class="nav-item">
+
+             @if (ViewContext.RouteData.Values["controller"].ToString() == "View" &&
+                   (ViewContext.RouteData.Values["action"].ToString() == "Index" ||
+                   ViewContext.RouteData.Values["action"].ToString() == "cartExtra" ||
+                   ViewContext.RouteData.Values["action"].ToString() == "seeMore"))
+                {
+
+                    <select id="category-dropdown" class="btn btn-secondary" asp-items="ViewBag.categorylist">
+                        <option hidden>Select Category</option>
+                    </select>
+                }
+                <br>
+            </li>
+
+            <li style="padding-left:50px;">
+                <div class="input-group">
+                    <input type="search" id="search-box" style="width:40%" class="form-control" placeholder="Search" />
+                    <button type="button" class="btn btn-secondary">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+
+                @*<h1>Search</h1>
+                <div class="container">
+                    <input type="text" id="search-box" placeholder="Search...">
+                    <ul id="search-results"></ul>
+                </div>*@
+                
+            </li>
+        </ul>
+
+        <a asp-controller="View" asp-action="cart" style="margin-top:7px;position:absolute;right:320px; color:#535353"><i class='fas fa-shopping-cart' style='font-size:20px;'>Cart</i></a>
+
+        <li class="nav-item" style="position:absolute;right:100px;">
+            <a id="manage" class="nav-link text-dark" title="Manage">Hello! @userEmail!</a>
+        </li>
+        <li class="nav-item" style="position:absolute;right:10px">
+         
+            <form id="logoutForm" asp-controller="Registration" asp-action="Logout" method="post" >
+                <button id="logout" type="submit" class="nav-link btn btn-link text-dark">
+                    Logout
+                </button>
+            </form>
+        </li>
+    }
+    else if (!string.IsNullOrEmpty(AdminLoggedIn) && AdminLoggedIn == "true")
+    
+    {
+        <ul class="navbar-nav flex-grow-1">
+            <li class="nav-item">
+                <a class="nav-link text-dark" asp-area="" asp-controller="View" asp-action="Index">Home</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-dark" asp-area="" asp-controller="Category" asp-action="Index">Category</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-dark" asp-area="" asp-controller="Product" asp-action="Index">Product</a>
+            </li>
+
+        </ul>
+
+        <a asp-controller="View" asp-action="cart" style="margin-top:7px;position:absolute;right:380px; color:#535353"><i class='fas fa-shopping-cart' style='font-size:20px;'>Cart</i></a>
+
+        <li class="nav-item" style="position:absolute;right:100px">
+            <a id="manage" class="nav-link text-dark" title="Manage">Hello! @userEmail!</a>
+
+        </li>
+        <li class="nav-item" style="position:absolute;right:10px">
+
+            <form id="logoutForm" asp-controller="Registration" asp-action="Logout" method="post">
+                <button id="logout" type="submit" class="nav-link btn btn-link text-dark">
+                    Logout
+                </button>
+            </form>
+        </li>
+    }
+ 
+else
+    {
+        <ul class="navbar-nav flex-grow-1">
+            <li class="nav-item">
+                <a class="nav-link text-dark" asp-area="" asp-controller="View" asp-action="Index">Home</a>
+            </li>
+            
+           <li class="nav-item">
+
+              @if (ViewContext.RouteData.Values["controller"].ToString() == "View" &&
+               (ViewContext.RouteData.Values["action"].ToString() == "Index" ||
+               ViewContext.RouteData.Values["action"].ToString() == "cartExtra" ||
+               ViewContext.RouteData.Values["action"].ToString() == "seeMore"))
+                {
+                <select id="category-dropdown" class="btn btn-secondary" asp-items="ViewBag.categorylist">
+                    <option hidden>Select Category</option>
+                </select>
+                }
+                
+
+                <br>
+            </li>
+
+            <li style="padding-left:50px;">
+                  <div class="input-group">
+                    <input type="search" id="search-box" style="width:40%" class="form-control" placeholder="Search" />
+                    <button type="button" class="btn btn-secondary">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+            </li>
+        </ul>
+
+    <a asp-controller="View" asp-action="guestCart" style=";position:absolute;right:80px;margin-right:20px;margin-top:3px; color:#535353"><i class='fas fa-shopping-cart' style='font-size:20px;'>Cart</i></a>
+
+        <li class="nav-item" style="position:absolute;right:20px;">
+            <a asp-controller="Registration" asp-action="Index" style="margin-right:20px;color:#535353;"><i class='far fa-user-circle' style='font-size:30px;'></i></a>
+        </li>
+    }
+
+
+
+
+
+
+   <script>
+        $(document).ready(function () {
+            $('#category-dropdown').change(function () {
+                var selectedCategoryId = $(this).val();
+                if (selectedCategoryId !== "") {
+                    window.location.href = "/View/seeMore/" + selectedCategoryId;
+                }
+            });
+        });
+    </script>

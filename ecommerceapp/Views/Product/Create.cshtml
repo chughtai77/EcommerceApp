@@ -1,0 +1,91 @@
+﻿@model Product
+
+@*@using Microsoft.AspNetCore.Http
+@using Microsoft.AspNetCore.Identity
+
+@inject IHttpContextAccessor HttpContextAccessor
+
+@{
+    var session = HttpContextAccessor.HttpContext.Session;
+    var AdminLoggedIn = session.GetString("AdminLoggedIn");
+    var userEmail = session.GetString("UserEmail");
+}
+@if (!string.IsNullOrEmpty(AdminLoggedIn) && AdminLoggedIn == "true")
+{*@
+
+<h2>
+    @*@(Model.productId != 0 ? "Update Existing" : "Create New")*@
+    Record </h2>
+<br>
+
+<form method="Post" asp-action="Create" enctype="multipart/form-data">
+    <input asp-for="prodimg" hidden />
+    <input asp-for="productId" hidden />
+    
+    <input id="imgPrev" type="file" name="productimg" class="form-control w-25" />
+
+    @if (@Model != null)
+    {
+        <img src="~/img/@Model.prodimg"
+         id="imgtag" class="form-control w-25 " height="200px" />
+    }
+    
+    @if (Model.productId > 0)
+    {
+        <img src="~/img/@Model.prodimg"
+         id="imgtag2" class="form-control w-25 " height="200px" />
+    }
+
+    <br>
+    <label> Name:</label>
+    <input asp-for="productName" type="text" class="form-control" />
+    <span asp-validation-for="productName" style="color:red"></span>
+    <br>
+
+    <label> Description:</label>
+    <input asp-for="productDesc" type="text" class="form-control" />
+    <span asp-validation-for="productDesc" style="color:red"></span>
+    <br>
+
+    <label for="categ">Category:</label>
+    <select class="form-control" asp-for="cId" asp-items="@(new SelectList(Model.categories, "CategoryId", "CategoryName"))">
+    </select>
+    <br>
+
+    <label> Price:</label>
+    <input asp-for="productPrice" type="number" class="form-control" />
+    <span asp-validation-for="productPrice" style="color:red"></span>
+    <br>
+
+    <button type="submit" class="btn btn-primary">
+        @(Model.productId != 0 ? "Update" : "Create") Record
+    </button>
+
+    <a asp-action="Index" class="btn btn-danger">Back to List</a>
+
+</form>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#imgtag').hide();
+
+        $("#imgPrev").change(function () {
+            readURL(this);
+        });
+    });
+    function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                $('#imgtag').attr('src', e.target.result);
+                $('#imgtag').show();
+                $('#imgtag2').hide();
+            }
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+
+</script>
+

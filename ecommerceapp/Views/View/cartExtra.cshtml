@@ -1,0 +1,81 @@
+﻿<style>
+    .button-container.zoom-open {
+        display: none;
+    }
+</style>
+
+@model ShopCartViewModel
+
+    <form asp-action="cartExtra" method="post">
+        <input asp-for="SCart.productId" hidden />
+
+        <div class="container" style="min-height: 200px;">
+
+            <div class="row p-3 p-md-5">
+                <div class="col-lg-5 col-md-6 col-sm-12 mb-3 mb-md-0" id="divv">
+                    <img src="~/img/@Model.SCart.Product.prodimg" alt="" id="zoom" class="img-fluid" style="width:400px;height:400px">
+                </div>
+                <div class="col-lg-7 col-md-6 col-sm-12" id="prod">
+                    <h1 asp-for="@Model.SCart.Product.productName">@Model.SCart.Product.productName</h1>
+                    <p asp-for="@Model.SCart.Product.productDesc">
+                        @Model.SCart.Product.productDesc
+                    </p>
+                    <p>
+                        Lorem, ipsum dolor sit amet consectetur adipisicing elit. Aspernatur unde modi veniam nulla nemo earum
+                        consequatur Libero voluptas, dolores earum cumque eligendi fugiat
+                        numquam aliquid.
+                    </p>
+
+                    <h4 >Price : @Model.SCart.Product.productPrice RS/-</h4>
+
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-start">
+                        @*<a  id="cart" class="btn btn-primary mt-3 mt-md-0">Back To Items</a>*@
+                        <button asp-controller="View" asp-action="cartExtra" asp-route-ProductId="@Model.SCart.productId"
+                            id="addtocart" class="btn btn-warning mt-3 mt-md-0">
+                            Add to Cart
+                        </button>
+                        @*<div class="input-group mt-3 mt-md-0" style="width: fit-content;">
+                            <button class="btn btn-outline-primary" type="button" onclick="decrement()">-</button>
+                            <input type="number" class="form-control" asp-for="Quantity" value="1" id="quantity" min="1" max="100">
+                            <button class="btn btn-outline-primary" type="button" onclick="increment()">+</button>
+                        </div>*@
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-start button-container">
+                        <button class="btn btn-outline-primary" type="button" onclick="decrement()">-</button>
+                        <input type="number" class="form-control" asp-for="Quantity" value="1" id="quantity" min="1" max="100">
+                        <button class="btn btn-outline-primary" type="button" onclick="increment()">+</button>
+                    </div>
+
+                    </div><br>
+                    <a asp-controller="View" asp-action="index" id="cart" class="btn btn-primary mt-3 mt-md-0">Back To Items</a>
+                </div>
+            </div>
+        </div>
+    </form>
+
+
+
+<script>
+
+    $('#zoom').elevateZoom({
+        zoomWindowWidth: 700,
+        zoomWindowHeight: 600
+    });
+
+
+    function increment() {
+        var quantity = document.getElementById('quantity');
+        var currentVal = parseInt(quantity.value);
+        if (currentVal < 10) {
+            quantity.value = currentVal + 1;
+        }
+    }
+
+    function decrement() {
+        var quantity = document.getElementById('quantity');
+        var currentVal = parseInt(quantity.value);
+        if (currentVal > 1) {
+            quantity.value = currentVal - 1;
+        }
+    }
+
+</script>

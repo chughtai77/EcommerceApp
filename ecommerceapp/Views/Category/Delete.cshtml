@@ -1,0 +1,31 @@
+﻿@model Categories
+
+@*@using Microsoft.AspNetCore.Http
+@using Microsoft.AspNetCore.Identity
+
+@inject IHttpContextAccessor HttpContextAccessor
+
+@{
+    var session = HttpContextAccessor.HttpContext.Session;
+    var AdminLoggedIn = session.GetString("AdminLoggedIn");
+    var userEmail = session.GetString("UserEmail");
+}
+@if (!string.IsNullOrEmpty(AdminLoggedIn) && AdminLoggedIn == "true")
+{
+*@
+
+<h2>Delete Record</h2>
+<br>
+<form asp-action="Delete" method="post">
+    <input asp-for="CategoryId" hidden/>
+    <input asp-for="img" hidden/>
+
+    <img src="~/img/@Model.img"
+         class="form-control w-25 " height="200px" /><br>
+    
+    <label>Category Name:</label>
+    <input asp-for="CategoryName" type="text" class="form-control" readonly/><br>
+
+    <button type="submit" class="btn btn-primary">Delete</button>
+    <a asp-action="Index" class="btn btn-danger">Back to List</a>
+</form>

@@ -1,0 +1,43 @@
+﻿@model Product
+
+@*@using Microsoft.AspNetCore.Http
+@using Microsoft.AspNetCore.Identity
+
+@inject IHttpContextAccessor HttpContextAccessor
+
+@{
+    var session = HttpContextAccessor.HttpContext.Session;
+    var AdminLoggedIn = session.GetString("AdminLoggedIn");
+    var userEmail = session.GetString("UserEmail");
+}
+@if (!string.IsNullOrEmpty(AdminLoggedIn) && AdminLoggedIn == "true")
+{
+*@
+
+<h2>Delete Record</h2>
+<br>
+<form method="Post" asp-action="Delete">
+    <input asp-for="productId" hidden />
+    <input asp-for="prodimg" hidden />
+
+    <img src="~/img/@Model.prodimg"
+         class="form-control w-25 " height="200px" /><br>
+
+    <label> Name:</label>
+    <input asp-for="productName" type="text" class="form-control" readonly /><br>
+
+    <label> description:</label>
+    <input asp-for="productDesc" type="text" class="form-control" readonly /><br>
+
+    <label for="Category">Category:</label>
+    <input asp-for="cId" type="text" class="form-control" readonly /><br>
+
+   
+    <label>Product Price:</label>
+    <input asp-for="productPrice" type="text" class="form-control" readonly /><br>
+
+
+    <button type="submit" class="btn btn-primary">Delete</button>
+    <a asp-action="Index" class="btn btn-danger">Back to List</a>
+
+</form>

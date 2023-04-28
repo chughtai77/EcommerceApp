@@ -1,0 +1,86 @@
+﻿@model IEnumerable<Categories>
+
+<div class="container-fluid pb-3">
+
+    @*<select id="category-dropdown" class="btn btn-secondary" asp-items="@(new SelectList(Model, "CategoryId", "CategoryName"))">
+        <option hidden>Select Category</option>
+    </select>
+    <br>
+    <br>*@
+
+    <div id="products-container" class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
+
+        @foreach (var obj in Model)
+        {
+            <div class="col mb-4">
+                <div class="card h-100">
+                    <img src="~/img/@obj.img" class="card-img-top" height="250px">
+                    <div class="card-body">
+                        <h5 class="card-title">@obj.CategoryName</h5>
+                        <a class="btn btn-primary btn-block"
+                       asp-controller="View" asp-action="seeMore" asp-route-id="@obj.CategoryId">See More</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+@*
+<script>
+    $(document).ready(function () {
+        $('#category-dropdown').change(function () {
+            var selectedCategoryId = $(this).val();
+            if (selectedCategoryId !== "") {
+                window.location.href = "/View/seeMore/" + selectedCategoryId;
+            }
+        });
+    });
+</script>
+*@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@*@model IEnumerable<Categories>
+
+
+<div class="row pb-3">
+
+    @foreach (var obj in Model)
+    {
+        <div class="col-lg-3 col-sm-6">
+            <div class="row p-2">
+                <div class="col-12">
+                    <div class="card p-3" style="width: 18rem;">
+                        <h5 class="card-title" style="text-align:center">@obj.CategoryName</h5>
+                        <img src="~/img/@obj.img" class="card-img-top" height="250px">
+                        <div class="card-body">
+                            <a class="btn btn-primary" style="margin-left:30%"
+                           asp-controller="View" asp-action="seeMore" asp-route-id="@obj.CategoryId">See More</a>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+
+*@
